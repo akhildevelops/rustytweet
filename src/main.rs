@@ -1,5 +1,5 @@
 use rustytweet::expansion::Expansion;
-use rustytweet::RequestInterface;
+
 use rustytweet::TwitterClient;
 use std::collections::HashMap;
 

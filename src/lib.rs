@@ -1,7 +1,7 @@
 mod builder;
 mod client;
 mod defaults;
-mod endpoints;
+
 pub mod expansion;
 mod external;
 
