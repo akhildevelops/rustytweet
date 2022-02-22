@@ -1,9 +1,3 @@
-// pub trait Expansion {
-//     fn get_fields(&self) -> &[&str];
-//     fn get_identifier(&self) -> String;
-//     fn get_fields_identifier(&self) -> String;
-// }
-
 pub enum Expansion<'a> {
     User(&'a [&'a str]),
     Tweet(&'a [&'a str]),

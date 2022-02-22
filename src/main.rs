@@ -1,8 +1,8 @@
 use rustytweet::expansion::Expansion;
 
 use rustytweet::TwitterClient;
-use std::collections::HashMap;
 
+use std::collections::HashMap;
 fn main() {
     let mut hm = HashMap::new();
     hm.insert("max_results".to_string(), "100".to_string());
@@ -23,5 +23,6 @@ fn main() {
         .search_recent_tweets("#nyc -is:retweet -is:reply is:verified")
         .expansion(&[media_expansion, tweet_expansion])
         .send();
-    println!("{:?}", resp.unwrap());
+
+    println!("{:?}", resp.unwrap())
 }

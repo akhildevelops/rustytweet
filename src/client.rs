@@ -1,22 +1,27 @@
-use reqwest::Error;
-
 use super::expansion::Expansion;
 use super::external::network::RequestInterface;
 use crate::builder::Builder;
-use crate::defaults::TWITTER_TWEET_SEARCH;
-use serde_json::{from_str, Value};
+use crate::defaults;
+use reqwest::Error;
+use serde::de::DeserializeOwned;
+use std::marker::PhantomData;
+
 use std::collections::HashMap;
 #[derive(Default)]
-pub struct TwitterHandle {
+pub struct TwitterHandle<T> {
     base_api: String,
     expansions: Option<String>,
     fields: Option<HashMap<String, String>>, // Check on how to references internal sturct values. Here fields key shud reference expansion of sort.
     bearer_token: String,
     query: String,
     query_params: HashMap<String, String>,
+    phantom: PhantomData<T>,
 }
 
-impl TwitterHandle {
+impl<T> TwitterHandle<T>
+where
+    T: DeserializeOwned + Default,
+{
     pub fn new(
         query: String,
         query_params: HashMap<String, String>,
@@ -60,13 +65,14 @@ impl TwitterHandle {
         self
     }
 
-    pub fn send(&self) -> Result<Value, Error> {
+    pub fn send(&self) -> Result<T, Error> {
         let response = self.get()?;
-        Ok(from_str(&response.text()?).unwrap())
+
+        Ok(response.json()?)
     }
 }
 
-impl RequestInterface for TwitterHandle {
+impl<T> RequestInterface for TwitterHandle<T> {
     fn url(&self) -> String {
         self.base_api.clone()
     }
@@ -99,8 +105,8 @@ impl TwitterClient {
     pub fn builder() -> Builder {
         Builder::default()
     }
-    pub fn search_recent_tweets(&self, query: &str) -> TwitterHandle {
-        let base_api = format!("{}{}", self.base_api, TWITTER_TWEET_SEARCH);
+    pub fn search_recent_tweets(&self, query: &str) -> TwitterHandle<defaults::Tweets> {
+        let base_api = format!("{}{}", self.base_api, defaults::TWITTER_TWEET_SEARCH);
         TwitterHandle::new(
             query.to_string(),
             self.params.clone(),

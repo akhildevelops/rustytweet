@@ -31,11 +31,10 @@ pub trait RequestInterface {
     fn get(&self) -> Result<Response> {
         // let headers = self.headers(); // add header map
         let url = self.url();
-        println!("The url is: {url}");
+
         let token = self.bearer_auth();
         let query_params = self.query_params();
         let client = Client::new();
-        println!("{:?}", query_params);
         let req_builder = client.get(url).bearer_auth(token).query(&query_params);
         req_builder.send()
     }

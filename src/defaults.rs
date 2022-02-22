@@ -13,10 +13,44 @@ pub const TWITTER_TWEET_SEARCH: &str = "tweets/search/recent/";
 // pub struct Tweet {
 //     pub data: Value,
 // }
-
+#[derive(Default, Deserialize, Debug)]
+pub struct User {
+    pub id: Option<String>,
+    pub name: Option<String>,
+    pub username: Option<String>,
+    pub description: Option<String>,
+    pub created_at: Option<String>,
+}
+#[derive(Default, Deserialize, Debug)]
+pub struct Tweet {
+    pub author_id: Option<String>,
+    pub created_at: Option<String>,
+    pub id: Option<String>,
+    pub text: Option<String>,
+}
+#[derive(Default, Deserialize, Debug)]
+pub struct Meta {
+    pub newest_id: Option<String>,
+    pub next_token: Option<String>,
+    pub oldest_id: Option<String>,
+    pub result_count: Option<usize>,
+}
 #[derive(Deserialize, Debug)]
-#[serde(untagged)]
-pub enum Response {
-    Tweet { data: Value, meta: Value },
-    Error { errors: Value },
+pub enum TwitterTypes {
+    Tweet(Tweet),
+    users(Vec<User>),
+    DefaultVariant,
+}
+
+#[derive(Default, Deserialize, Debug)]
+pub struct Tweets {
+    pub data: Vec<Tweet>,
+    pub includes: TwitterTypes,
+    pub meta: Meta,
+}
+
+impl Default for TwitterTypes {
+    fn default() -> Self {
+        Self::DefaultVariant
+    }
 }
