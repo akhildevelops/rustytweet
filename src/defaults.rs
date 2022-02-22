@@ -38,7 +38,8 @@ pub struct Meta {
 #[derive(Deserialize, Debug)]
 pub enum TwitterTypes {
     Tweet(Tweet),
-    users(Vec<User>),
+    #[serde(rename = "users")]
+    Users(Vec<User>),
     DefaultVariant,
 }
 
