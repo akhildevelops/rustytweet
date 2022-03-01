@@ -1,4 +1,4 @@
-use rustytweet::expansion::Expansion;
+use rustytweet::Expansion;
 
 use rustytweet::TwitterClient;
 

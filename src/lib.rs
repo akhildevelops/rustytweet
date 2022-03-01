@@ -1,9 +1,8 @@
 mod builder;
 mod client;
 mod defaults;
-
-pub mod expansion;
+mod expansion;
 mod external;
 
 pub use client::TwitterClient;
-pub use external::network::RequestInterface;
+pub use expansion::Expansion;
