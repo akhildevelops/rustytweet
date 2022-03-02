@@ -31,7 +31,6 @@ pub struct Tweet {
     pub referenced_tweets: Option<Value>,
     pub source: Option<String>,
 }
-// https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/tweet
 
 #[derive(Deserialize, Debug)]
 pub enum Attachments {
@@ -59,8 +58,8 @@ pub enum TwitterTypes {
 #[derive(Default, Deserialize, Debug)]
 pub struct Tweets {
     pub data: Vec<Tweet>,
-    pub includes: TwitterTypes,
-    pub meta: Meta,
+    pub includes: Option<TwitterTypes>,
+    pub meta: Option<Meta>,
 }
 
 #[derive(Deserialize, Debug)]
