@@ -19,6 +19,8 @@ pub struct User {
     pub username: Option<String>,
     pub description: Option<String>,
     pub created_at: Option<String>,
+    pub conversation_id: Option<String>,
+    pub in_reply_to_user_id: Option<String>,
 }
 #[derive(Default, Deserialize, Debug)]
 pub struct Tweet {
@@ -27,6 +29,8 @@ pub struct Tweet {
     pub id: Option<String>,
     pub text: Option<String>,
 }
+// https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/tweet
+
 #[derive(Default, Deserialize, Debug)]
 pub struct Meta {
     pub newest_id: Option<String>,
@@ -47,6 +51,34 @@ pub struct Tweets {
     pub data: Vec<Tweet>,
     pub includes: TwitterTypes,
     pub meta: Meta,
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(untagged)]
+pub enum TweetsError {
+    Tweet(Tweets),
+    Error(Error),
+    DefaultVariant,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct ErrorContent {
+    pub message: Option<String>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Error {
+    pub title: String,
+    pub detail: String,
+    #[serde(rename = "type")]
+    pub error_type: String,
+    pub errors: Vec<ErrorContent>,
+}
+
+impl Default for TweetsError {
+    fn default() -> Self {
+        Self::DefaultVariant
+    }
 }
 
 impl Default for TwitterTypes {
