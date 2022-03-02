@@ -67,8 +67,7 @@ where
 
     pub fn send(&self) -> Result<T, Error> {
         let response = self.get()?;
-
-        Ok(response.json()?)
+        response.json()
     }
 }
 
@@ -105,7 +104,7 @@ impl TwitterClient {
     pub fn builder() -> Builder {
         Builder::default()
     }
-    pub fn search_recent_tweets(&self, query: &str) -> TwitterHandle<defaults::Tweets> {
+    pub fn search_recent_tweets(&self, query: &str) -> TwitterHandle<defaults::TweetsError> {
         let base_api = format!("{}{}", self.base_api, defaults::TWITTER_TWEET_SEARCH);
         TwitterHandle::new(
             query.to_string(),
