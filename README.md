@@ -4,7 +4,9 @@
 <img src="https://www.rust-lang.org/static/images/rust-social.jpg" height=100>
 <img src="https://upload.wikimedia.org/wikipedia/sco/9/9f/Twitter_bird_logo_2012.svg" height=100>
 </span>
-Library for twitter api based on api v2.
+</br>
+
+## Library for Twitter V2 API.
 
 Currently the library accepts App-Access token i.e Bearer Token.
 
