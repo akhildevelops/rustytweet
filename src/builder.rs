@@ -18,11 +18,14 @@ impl Builder {
         self
     }
 
-    pub fn build(self) -> TwitterClient {
-        TwitterClient {
+    pub fn build(self) -> Result<TwitterClient, String> {
+        if self.bearer_token.len() == 0 {
+            return Err("Bearer_Token is not defined!".to_string());
+        }
+        Ok(TwitterClient {
             bearer_token: self.bearer_token,
             params: self.params,
             base_api: TWITTER_BASE_API.to_string(),
-        }
+        })
     }
 }
