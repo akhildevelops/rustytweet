@@ -1,17 +1,9 @@
 pub const TWITTER_BASE_API: &str = "https://api.twitter.com/2/";
 
 use serde::Deserialize;
-
+use serde_json::Value;
 pub const TWITTER_TWEET_SEARCH: &str = "tweets/search/recent/";
-// pub const TWITTER_AUTH_TOKEN:&str="AAAAAAAAAAAAAAAAAAAAACuFZQEAAAAAwKKMQk7xK2rhCpTVctpBZqhzVxI%3DZEd7d5kCShK6kUtSJ7u0leE7XXv5i8v2Vgryc7jUihcE5yEQ0s";
 
-// pub struct Error {
-//     pub errors: Value,
-// }
-
-// pub struct Tweet {
-//     pub data: Value,
-// }
 #[derive(Default, Deserialize, Debug)]
 pub struct User {
     pub id: Option<String>,
@@ -22,14 +14,32 @@ pub struct User {
     pub conversation_id: Option<String>,
     pub in_reply_to_user_id: Option<String>,
 }
+
 #[derive(Default, Deserialize, Debug)]
 pub struct Tweet {
     pub author_id: Option<String>,
     pub created_at: Option<String>,
     pub id: Option<String>,
     pub text: Option<String>,
+    pub attachments: Option<Attachments>,
+    pub context_annotations: Option<Value>,
+    pub conversation_id: Option<String>,
+    pub entities: Option<Value>,
+    pub geo: Option<Value>,
+    pub in_reply_to_user_id: Option<String>,
+    pub lang: Option<String>,
+    pub referenced_tweets: Option<Value>,
+    pub source: Option<String>,
 }
 // https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/tweet
+
+#[derive(Deserialize, Debug)]
+pub enum Attachments {
+    #[serde(rename = "poll_ids")]
+    POLLIDS(Vec<String>),
+    #[serde(rename = "media_keys")]
+    MEDIAKEYS(Vec<String>),
+}
 
 #[derive(Default, Deserialize, Debug)]
 pub struct Meta {
